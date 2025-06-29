@@ -2,4 +2,4 @@ pycache/
 *.py[cod]
 .DS_Store
 Thumbs.db
-jasok-version_img-file-renamer
+jasok-version_img-file-renamer.py
