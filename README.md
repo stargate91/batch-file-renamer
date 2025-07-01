@@ -1,50 +1,75 @@
-# Image File Renamer
 
-A simple command-line tool to batch rename image files in a folder using a custom prefix and optional zero-padded numbering.
+# Batch Image Renamer
 
-Useful for organizing photos, cleaning up filenames, or preparing images for publishing.
+This is a simple Python script to batch rename image files in a folder.
 
-## Features
+## What it does
 
-- Rename `.jpg`, `.png`, `.jpeg`, or any other extension
-- Accepts multiple extensions at once
-- Optional zero-padding (e.g. `001`, `002`, ...)
-- Safe preview mode with `--dry-run`
+- Renames all files in a folder that match given extensions (like `.jpg`, `.png`).
+- Adds a custom prefix to all renamed files.
+- You can choose zero-padded numbering like `001`, `002` if you want.
+- Supports a dry run mode to preview changes before renaming.
 
-## Usage
+## Requirements
 
-python rename_img_files.py <folder> <extension(s)> <prefix> [--zero-fill N] [--dry-run]
+- Python 3.x
+- Standard libraries only (`argparse`, `os`, `sys`)
 
-### Arguments
+## How to use
 
-| Argument        | Description                                                            |
-|-----------------|-------------------------------------------------------------------------|
-| `folder`        | Path to the folder containing the image files                          |
-| `extension`     | One or more file extensions to match (e.g. `.jpg .png`)                |
-| `prefix`        | The prefix to use for the renamed files                                |
-| `--zero-fill`   | (Optional) Number of digits for zero-padding (e.g. 3 → `001`, `002`)   |
-| `--dry-run`     | (Optional) Preview changes without actually renaming files             |
+1. Open your terminal or command prompt.
+2. Navigate to the folder where `rename_images.py` is located.
+3. Run the script with:
 
-## Examples
+   ```bash
+   python rename_images.py /path/to/folder .jpg .png myprefix --zero-fill 3 --dry-run
+   ```
 
-Rename only `.jpg` files:
+   Replace `/path/to/folder` with the path to your images, `.jpg` and `.png` with your file extensions, `myprefix` with your desired prefix, and `--zero-fill` with the number of digits you want for padding.
 
-python rename_img_files.py ./images .jpg photo_
+**Example:**
 
-Rename both `.jpg` and `.png` with 3-digit zero-padding:
+```bash
+python rename_images.py ./images .jpg myphoto --zero-fill 2
+```
 
-python rename_img_files.py ./images .jpg .png img_ --zero-fill 3
+This will rename files like:
+```
+IMG_1234.jpg → myphoto01.jpg
+```
 
-Preview what would happen without making changes:
+## Arguments
 
-python rename_img_files.py ./images .jpeg result_ --dry-run
+| Argument       | Required | Description                                                         |
+|----------------|----------|---------------------------------------------------------------------|
+| `folder`       | ✅        | Path to your images folder.                                         |
+| `extension`    | ✅        | One or more file extensions to match (like `.jpg`).                 |
+| `prefix`       | ✅        | Prefix you want for the new file names.                             |
+| `--zero-fill`  | Optional | Number of digits for zero padding. Default is `0` (no padding).     |
+| `--dry-run`    | Optional | Preview the new names without actually renaming files.              |
 
 ## Notes
 
-- Extensions are case-insensitive
-- Files that already start with the prefix will be skipped
-- Both relative and absolute paths are supported
+- The script will skip files that already start with your prefix.
+- It prints an error if the folder does not exist or has no matching files.
+- It works only for files in the given folder (no subfolders).
 
----
+## Example Output
 
-Made for learning and small batch file cleanup tasks.
+If you run in dry run mode:
+```
+[DRY RUN] Would rename DSC001.jpg → holiday001.jpg
+[DRY RUN] Would rename DSC002.jpg → holiday002.jpg
+```
+
+If you run it without `--dry-run`:
+```
+Renaming DSC001.jpg → holiday001.jpg
+Renaming DSC002.jpg → holiday002.jpg
+```
+
+## Author
+
+Written by a junior Python developer learning how to use `argparse` and work with files. 🙂
+
+Feel free to fork it and make it better!
