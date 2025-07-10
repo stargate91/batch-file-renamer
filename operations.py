@@ -5,7 +5,7 @@ def rename_files(files, extension, use_zero_fill, prefix, folder_path):
     index = 1
     no_match_found = True
 
-    for filename in files:
+    for filename in sorted(files):
         matched_ext = next(
         (ext for ext in extension if filename.lower().endswith(ext.lower())),
         None
