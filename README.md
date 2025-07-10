@@ -1,7 +1,7 @@
 
-# Batch Image Renamer
+# Batch File Renamer
 
-This is a simple Python script to batch rename image files in a folder.
+This is a simple Python script to batch rename files in a folder.
 
 ## What it does
 
@@ -13,16 +13,16 @@ This is a simple Python script to batch rename image files in a folder.
 ## Requirements
 
 - Python 3.x
-- Standard libraries only (`argparse`, `os`, `sys`)
+- Standard libraries only (`argparse`, `os`)
 
 ## How to use
 
 1. Open your terminal or command prompt.
-2. Navigate to the folder where `rename_images.py` is located.
+2. Navigate to the folder where `main.py` is located.
 3. Run the script with:
 
    ```bash
-   python rename_images.py /path/to/folder .jpg .png myprefix --zero-fill 3 --dry-run
+   python main.py /path/to/folder .jpg .png myprefix --zero-fill 3 --dry-run
    ```
 
    Replace `/path/to/folder` with the path to your images, `.jpg` and `.png` with your file extensions, `myprefix` with your desired prefix, and `--zero-fill` with the number of digits you want for padding.
@@ -30,7 +30,7 @@ This is a simple Python script to batch rename image files in a folder.
 **Example:**
 
 ```bash
-python rename_images.py ./images .jpg myphoto --zero-fill 2
+python main.py ./images .jpg myphoto --zero-fill 2
 ```
 
 This will rename files like:
