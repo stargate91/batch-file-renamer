@@ -18,25 +18,27 @@ def check_prefix(prefix):
 
     return True
 
-def check_files(no_match_found, folder_path):
-    if no_match_found:
+def check_files(filtered_files, folder_path):
+    if not filtered_files:
         print(f"[WARNING] No matching files found in '{folder_path}'.")
         return False
 
     return True
 
-def check_file_exists(folder_path, filename, newname):
-    destination = os.path.join(folder_path, newname)
+
+def check_file_exists(destination, filepath, newname):
     if os.path.exists(destination):
-        print(f"[ERROR] Cannot rename {filename} → {newname}: target already exists.")
+        relpath = os.path.relpath(filepath)
+        print(f"[ERROR] Cannot rename {relpath} → {newname}: target already exists.")
         return False
 
     return True
 
-def dry_check_file_exists(folder_path, filename, newname):
-    destination = os.path.join(folder_path, newname)
+
+def dry_check_file_exists(destination, filepath, newname):
     if os.path.exists(destination):
-        print(f"[DRY RUN][CONFLICT] Cannot rename {filename} → {newname}: target already exists.")
+        relpath = os.path.relpath(filepath)
+        print(f"[DRY RUN][CONFLICT] Cannot rename {relpath} → {newname}: target already exists.")
         return False
 
     return True

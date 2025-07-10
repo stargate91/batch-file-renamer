@@ -7,5 +7,6 @@ def parse_args():
 	parser.add_argument("prefix", help="Prefix for the renamed files.")
 	parser.add_argument("--zero-fill", type=int, default=0, help="Number of digits for zero-padding (e.g. 3 → 001, 002). Default: no padding.")
 	parser.add_argument("--dry-run", action="store_true", help="Preview changes without actually renaming files.")
+	parser.add_argument("--recursive", action="store_true", help="Process files in subdirectories as well.")
 
 	return parser.parse_args()

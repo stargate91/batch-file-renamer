@@ -1,53 +1,41 @@
 import os
-from validators import check_files, check_file_exists, dry_check_file_exists
+from validators import check_file_exists
+from output import rename_success_message 
 
-def rename_files(files, extension, use_zero_fill, prefix, folder_path):
+def filter_files(all_files, extension):
+    filtered_files = []
+    for filepath in all_files:
+        filename = os.path.basename(filepath)
+
+        if any(filename.lower().endswith(ext.lower()) for ext in extension):
+            filtered_files.append(filepath)
+    
+    return filtered_files
+
+# Pythonic approach:
+# def filter_files(all_files, extension):
+#     return [
+#     f for f in all_files
+#     if any(os.path.basename(f).lower().endswith(ext.lower()) for ext in extension)
+#     ]
+
+
+def rename_files(filtered_files, use_zero_fill, prefix):
     index = 1
-    no_match_found = True
+    for filepath in filtered_files:
+        filename = os.path.basename(filepath)
+        extension = os.path.splitext(filename)[1].lstrip(".").lower()
 
-    for filename in sorted(files):
-        matched_ext = next(
-        (ext for ext in extension if filename.lower().endswith(ext.lower())),
-        None
-        )
-        if matched_ext is None:
-            continue
-        no_match_found = False
-        clean_ext = matched_ext.lstrip(".")
         if use_zero_fill > 0:
-            newname = f"{prefix}{index:0{use_zero_fill}}.{clean_ext}"
+            newname = f"{prefix}{index:0{use_zero_fill}}.{extension}"
         else:
-            newname = f"{prefix}{index}.{clean_ext}"
-        if not check_file_exists(folder_path, filename, newname):
+            newname = f"{prefix}{index}.{extension}"
+
+        newpath = os.path.join(os.path.dirname(filepath), newname)
+
+        if not check_file_exists(newpath, filename, newname):
             continue
-        os.rename(os.path.join(folder_path, filename), os.path.join(folder_path, newname))
-        print(f"Renaming {filename} → {newname}")
+
+        os.rename(filepath, newpath)
+        rename_success_message(filepath, newname)
         index += 1
-
-    if not check_files(no_match_found, folder_path):
-        return
-
-def dry_rename_files(files, extension, use_zero_fill, prefix, folder_path):
-    index = 1
-    no_match_found = True
-
-    for filename in sorted(files):
-        matched_ext = next(
-        (ext for ext in extension if filename.lower().endswith(ext.lower())),
-        None
-        )
-        if matched_ext is None:
-            continue
-        no_match_found = False
-        clean_ext = matched_ext.lstrip(".")
-        if use_zero_fill > 0:
-            newname = f"{prefix}{index:0{use_zero_fill}}.{clean_ext}"
-        else:
-            newname = f"{prefix}{index}.{clean_ext}"
-        if not dry_check_file_exists(folder_path, filename, newname):
-            continue    
-        print(f"[DRY RUN] Would rename {filename} → {newname}")
-        index += 1
-
-    if not check_files(no_match_found, folder_path):
-        return
